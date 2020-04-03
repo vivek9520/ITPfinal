@@ -1,0 +1,90 @@
+<%@page import="Utility.DBConnection"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Agro</title>
+</head>
+
+<body>
+
+
+<%
+String id = request.getParameter("username");
+DBConnection db = new DBConnection();
+Connection con = db.createConnection();
+Statement statement = con.createStatement();
+ResultSet resultSet = null;
+
+%>
+
+
+<div class="topnav">
+<div class="search-container">
+    <form action="SearchPro" method="get">
+      <input type="text" placeholder="SEARCH PRODUCT" name="search">
+      <button type="submit"><i class="fa fa-search">Search</i></button>
+    </form>
+</div></div>
+</br> </br>
+
+	<center><h2><font color="#02075d">PRODUCT DETAILS</font></h2></center>
+	
+<div align="center">
+		<table border="1" cellpadding="12">
+		 
+		  <tr>
+		  		<th>PID</th>
+                <th>PRODUCT</th>
+                <th>SEASON</th>
+                <th>CATEGORY</th>
+                <th>PLACES</th>
+                <th>DETAILS</th>
+                <th>UPDATE</th>
+                <th>DELETE</th>
+                
+            </tr>
+              
+		</div>
+		
+<%
+try{ 
+
+String sql ="SELECT * FROM product";
+
+resultSet = statement.executeQuery(sql);
+ 
+while(resultSet.next()){
+%>
+<tr bgcolor="#ffffff">
+
+<td><%=resultSet.getString("pid") %></td>
+<td><%=resultSet.getString("product") %></td>
+<td><%=resultSet.getString("season") %></td>
+<td><%=resultSet.getString("category") %></td>
+<td><%=resultSet.getString("places") %></td>
+<td><%=resultSet.getString("details") %></td>
+<td>
+<a href="update_ni.jsp?pid=<%=resultSet.getString("pid")%>" class="submit1">UPDATE</a></td>
+<td>
+<a href="DeleteProductNi.jsp?pid=<%=resultSet.getString("pid")%>" class="submit1">DELETE</a></td>
+		 
+</tr>
+
+<% 
+}
+
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
+
+	
+</body>
+</html>

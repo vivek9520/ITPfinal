@@ -1,0 +1,186 @@
+<%@page import="Utility.DBConnection"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+   
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cost view</title>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+body {
+  font-family: Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+    
+
+</head>
+<body background="img/bg-cost.jpg">
+
+<br>
+<br>
+<br>
+<div class="container" style="background-color: white">
+  <h2>Farming Cost Guide </h2><br>
+    
+    <form class="example" action="resultCost.jsp" method="get">
+  <input type="text" placeholder="Search by Province..." name="search">
+  <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+    <br>
+    <br>
+    <%
+String id = request.getParameter("userId");
+    DBConnection db = new DBConnection();
+	Connection con = db.createConnection();
+	Statement statement = con.createStatement();
+	ResultSet resultSet = null;
+
+%>
+    
+          
+  
+   
+ <div class="row">   
+ <%
+try{ 
+
+String a = request.getParameter("search");
+String sql ="SELECT * FROM costguide";
+
+resultSet = statement.executeQuery(sql);
+
+
+ 
+while(resultSet.next()){
+	
+	%>
+    
+        
+     
+     <div class = "col-md-3">
+           		 <div class="card  align-items-center" style="width:300px height:500px padding:10px">
+                		<img class="card-img-top" src="img/dddd.jpg" alt="Card image" style="width:100%">
+                   	 <div class="card-body">
+                        <h4 class="card-title alert alert-success"><u>Vegetable :<%=resultSet.getString("product") %></h4></u>
+                        <h5 lass="card-title">Market: <%=resultSet.getString("province") %></h5>
+                        <h6>Buying : <%=resultSet.getString("product") %></h6>
+                       
+                       
+                        <a href="#" class=" block" data-toggle="modal"  data-target="#myModal" data-id="my_id_value">About</a>
+                    </div>
+           		 </div>
+           		 <br>
+       		 </div>
+ 
+  <% 
+ 
+ 
+ 
+}
+
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
+  </div>
+</div>
+    <br><br>
+    <center>
+    <img src="img/cost.gif" style="width:100%;height:200px;">
+        </center>
+
+
+
+<!-- Modal starts here -->
+    <!--     -->
+    
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+    <!-- l content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add the prices:</h4>
+                    </div>
+                <div class="modal-body">
+                
+                
+				<h3></h3>
+				
+   
+ </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Modal ends here here -->
+<script type="text/javascript">
+$(document).ready(function() {
+
+  $('a[data-toggle=modal], button[data-toggle=modal]').click(function () {
+
+    var data_id = '';
+
+    if (typeof $(this).data('id') !== 'undefined') {
+
+      data_id = $(this).data('id');
+    }
+
+    $('#my_element_id').val(data_id);
+  })
+});
+</script>
+</body>
+</html>
